@@ -1,0 +1,30 @@
+version: '3.4'
+
+services:
+  proxy:
+    image: nginx
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    networks:
+      - madao
+
+  datos:
+    image: datos
+    build:
+      context: .
+      dockerfile: Dockerfile.http
+    networks:
+      - madao
+  apiProyect:
+    image: api
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    ports:
+      - 5000:5000
+    networks:
+        - madao
+networks:
+  madao:
